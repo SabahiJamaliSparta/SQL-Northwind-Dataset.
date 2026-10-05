@@ -1,8 +1,7 @@
 # Northwind SQL: JOINs and Aggregation
 
 **Author:** Sabahi Jamali  
-**Programme:** Sparta Global  
-**Database:** Northwind | **DBMS:** Microsoft SQL Server | **Language:** T-SQL
+**Database:** Northwind | **DBMS:** Microsoft SQL Server |
 
 ## Project overview
 
