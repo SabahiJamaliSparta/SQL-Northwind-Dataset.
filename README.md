@@ -1,7 +1,6 @@
 # Northwind SQL: Database Fundamentals and Basic Queries
 
 **Author:** Sabahi Jamali  
-**Programme:** Sparta Global  
 **Database:** Northwind | **DBMS:** Microsoft SQL Server | 
 
 ## Project overview
