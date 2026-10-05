@@ -1,8 +1,7 @@
 # SQL JOINs: Concepts and Northwind Practice
 
 **Author:** Sabahi Jamali  
-**Programme:** Sparta Global  
-**DBMS:** Microsoft SQL Server | **Language:** T-SQL
+**DBMS:** Microsoft SQL Server | 
 
 ## 1. What are JOINs, and why use them?
 
