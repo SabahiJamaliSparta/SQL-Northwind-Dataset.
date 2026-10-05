@@ -1,0 +1,447 @@
+# SQL JOINs: Concepts and Northwind Practice
+
+**Author:** Sabahi Jamali  
+**Programme:** Sparta Global  
+**DBMS:** Microsoft SQL Server | **Language:** T-SQL
+
+## 1. What are JOINs, and why use them?
+
+A **JOIN** combines rows from related tables using a condition. For example, a customer ID connects a customer record to that customer's orders. JOINs retrieve information together without changing the underlying tables.
+
+Relational databases separate entities to reduce duplication: customer details are stored once rather than repeated on every order. JOINs reconnect these records for analysis. They support customer order histories, sales calculations, employee activity reports and checks for missing relationships.
+
+## 2. How do JOINs work?
+
+The `FROM` clause identifies the left table, and the table after `JOIN` is the right table. The `ON` clause specifies the matching condition. The JOIN type determines which unmatched rows are retained. The `SELECT` clause chooses the output columns.
+
+An equality JOIN returns every pair with matching key values. If one customer has two orders, that customer appears twice. Outer JOINs fill fields from a missing side with `NULL`. A JOIN does not automatically remove duplicate rows, and an equality comparison between two `NULL` keys does not create a match.
+
+![SQL JOIN diagram showing input tables and the rows returned by INNER, LEFT, RIGHT and FULL OUTER JOINs](sql-joins-diagram.png)
+
+*Figure 1. The same two input tables produce different outputs according to the JOIN type. Amina has two orders, Chloe has none, and order 104 has no matching customer.*
+
+| JOIN type | Rows retained | Example use |
+| --- | --- | --- |
+| INNER JOIN | Matching pairs only | Orders with customer details |
+| LEFT JOIN | Matches and every unmatched left row | Every customer, including those without orders |
+| RIGHT JOIN | Matches and every unmatched right row | Every order, including those without a customer match |
+| FULL OUTER JOIN | Matches and unmatched rows from both sides | Reconciling two datasets |
+
+`OUTER` is optional in `LEFT`, `RIGHT` and `FULL` JOIN syntax. A RIGHT JOIN can also be written as a LEFT JOIN by reversing the table order.
+
+## 3. Basic worked examples
+
+The following small demonstration uses table variables, so it does not create or modify permanent Northwind tables. Run the setup and all four examples together in one batch; table variables are not available after `GO`.
+
+Order 104 deliberately references customer 4, who is absent, to illustrate an unmatched right-side row. This example has no foreign key constraint; an enforced foreign key would reject such a reference.
+
+### Example setup
+
+```sql
+DECLARE @Customers TABLE (
+    CustomerID int PRIMARY KEY,
+    CustomerName varchar(30)
+);
+DECLARE @Orders TABLE (
+    OrderID int PRIMARY KEY,
+    CustomerID int
+);
+
+INSERT INTO @Customers (CustomerID, CustomerName)
+VALUES (1, 'Amina'), (2, 'Ben'), (3, 'Chloe');
+
+INSERT INTO @Orders (OrderID, CustomerID)
+VALUES (101, 1), (102, 1), (103, 2), (104, 4);
+```
+
+### INNER JOIN: matching records
+
+```sql
+SELECT c.CustomerID, c.CustomerName, o.OrderID
+FROM @Customers AS c
+INNER JOIN @Orders AS o ON o.CustomerID = c.CustomerID
+ORDER BY c.CustomerID, o.OrderID;
+```
+
+**Expected output:** Three rows: Amina with orders 101 and 102, and Ben with order 103. Chloe and order 104 are excluded because they have no match.
+
+### LEFT JOIN: retain all customers
+
+```sql
+SELECT c.CustomerID, c.CustomerName, o.OrderID
+FROM @Customers AS c
+LEFT JOIN @Orders AS o ON o.CustomerID = c.CustomerID
+ORDER BY c.CustomerID, o.OrderID;
+```
+
+**Expected output:** Four rows: the three matches plus Chloe with a `NULL` OrderID. This is useful when customers without orders must remain visible.
+
+### RIGHT JOIN: retain all orders
+
+```sql
+SELECT c.CustomerID, c.CustomerName, o.OrderID
+FROM @Customers AS c
+RIGHT JOIN @Orders AS o ON o.CustomerID = c.CustomerID
+ORDER BY o.OrderID;
+```
+
+**Expected output:** Four rows: the three matches plus order 104 with `NULL` customer fields. The output selects `c.CustomerID`; the unmatched order's own `o.CustomerID` is still 4.
+
+### FULL OUTER JOIN: retain both sides
+
+```sql
+SELECT c.CustomerID, c.CustomerName, o.OrderID
+FROM @Customers AS c
+FULL OUTER JOIN @Orders AS o ON o.CustomerID = c.CustomerID
+ORDER BY COALESCE(c.CustomerID, o.CustomerID), o.OrderID;
+```
+
+**Expected output:** Five rows: the three matches, Chloe without an order, and order 104 without a customer match.
+
+Aliases `c` and `o` make each column's source explicit. JOINs depend on the condition, so columns do not need identical names. A foreign key documents and enforces a relationship; it is not required to write a JOIN.
+
+## 4. Northwind relationships
+
+```mermaid
+erDiagram
+    CUSTOMERS ||--o{ ORDERS : places
+    ORDERS ||--o{ ORDER_DETAILS : contains
+    PRODUCTS ||--o{ ORDER_DETAILS : appears_in
+    CUSTOMERS {
+        string CustomerID PK
+        string CompanyName
+    }
+    ORDERS {
+        int OrderID PK
+        string CustomerID FK
+    }
+    ORDER_DETAILS {
+        int OrderID PK, FK
+        int ProductID PK, FK
+        int Quantity
+    }
+    PRODUCTS {
+        int ProductID PK
+        string ProductName
+    }
+```
+
+*Figure 2. Core business relationships used in the exercises. Each order can contain several product lines, and each product can appear in several orders. In the SQL Server Northwind schema, Orders.CustomerID permits NULL; the diagram shows the intended customer–order relationship.*
+
+`[Order Details]` links Orders and Products. Its composite primary key combines `OrderID` and `ProductID`. Square brackets delimit the table name because it contains a space.
+
+| Tables | Matching condition |
+| --- | --- |
+| Customers and Orders | `c.CustomerID = o.CustomerID` |
+| Orders and Order Details | `o.OrderID = od.OrderID` |
+| Products and Order Details | `p.ProductID = od.ProductID` |
+| Employees and Orders | `e.EmployeeID = o.EmployeeID` |
+| Categories and Products | `cat.CategoryID = p.CategoryID` |
+| Shippers and Orders | `s.ShipperID = o.ShipVia` |
+
+## 5. Aggregation and calculation rules
+
+| Feature | Purpose |
+|---|---|
+| SUM | Add values, such as quantities or line amounts |
+| COUNT(column) | Count non-NULL values |
+| AVG | Calculate the mean of non-NULL values |
+| GROUP BY | Create one result per group |
+| COALESCE | Supply a fallback for NULL |
+| TOP (5) | Return five rows when combined with the intended ordering |
+| CTE: WITH … AS | Define a named query result for the following statement |
+
+**Grain** means what one row represents. Orders has one row per order; joining it to Order Details produces one row per order line. Count orders before this expansion, use COUNT(DISTINCT OrderID), or aggregate back to order level.
+
+### Order value and customer spend
+
+The calculations use:
+
+**Line value = UnitPrice × Quantity × (1 − Discount)**
+
+- UnitPrice comes from **Order Details**, preserving the historical selling price.
+- Discount is a fraction: 0.10 represents 10%.
+- Spend and revenue mean discounted merchandise order value, excluding freight and tax. They do not establish payments received or recognised accounting revenue.
+- Discount is stored as REAL in the supplied schema; DECIMAL conversion avoids floating-point arithmetic in the calculations. Totals are displayed to two decimal places after aggregation.
+- No currency symbol is assumed.
+
+For example, a line priced at 20 with quantity 3 and a 10% discount has a value of **54.00**. This is an illustrative calculation, not a Northwind finding.
+
+## 6. Northwind exercise solutions
+
+These reference solutions cover all 15 tasks. Run them against your local database and review the explanations alongside your class notes. Numerical findings are not assumed.
+
+
+Use the existing Northwind connection and select the database:
+
+```sql
+USE Northwind;
+GO
+```
+
+Run each complete query separately. For CTEs, include the WITH clause and its following SELECT. The examples below are read-only.
+
+### 1. Customers and their order IDs
+
+**Task:** Show every customer and any orders they have placed.
+
+```sql
+SELECT c.CustomerID, c.CompanyName, o.OrderID
+FROM dbo.Customers AS c
+LEFT JOIN dbo.Orders AS o ON o.CustomerID = c.CustomerID
+ORDER BY c.CustomerID, o.OrderID;
+```
+
+**Explanation:** LEFT JOIN retains every customer. Customers with several orders appear several times; customers without orders have a NULL OrderID.
+
+### 2. Orders with customer names
+
+**Task:** Show OrderID, OrderDate and CompanyName.
+
+```sql
+SELECT o.OrderID, o.OrderDate, c.CompanyName
+FROM dbo.Orders AS o
+INNER JOIN dbo.Customers AS c ON c.CustomerID = o.CustomerID
+ORDER BY o.OrderID;
+```
+
+**Explanation:** INNER JOIN returns orders with matching customer records. The output contains one row per matched order.
+
+### 3. Orders with product names
+
+**Task:** Show OrderID, ProductName and Quantity.
+
+```sql
+SELECT od.OrderID, p.ProductName, od.Quantity
+FROM dbo.[Order Details] AS od
+INNER JOIN dbo.Products AS p ON p.ProductID = od.ProductID
+ORDER BY od.OrderID, p.ProductID;
+```
+
+**Explanation:** Order Details connects products to orders. Each output row represents a product line within an order.
+
+### 4. Order totals
+
+**Task:** Calculate the discounted merchandise value of each order.
+
+```sql
+SELECT o.OrderID,
+       CAST(COALESCE(SUM(
+           CAST(od.UnitPrice AS decimal(19,4)) * od.Quantity
+           * (1 - CAST(od.Discount AS decimal(9,6)))
+       ), 0) AS decimal(19,2)) AS OrderTotal
+FROM dbo.Orders AS o
+LEFT JOIN dbo.[Order Details] AS od ON od.OrderID = o.OrderID
+GROUP BY o.OrderID
+ORDER BY o.OrderID;
+```
+
+**Explanation:** GROUP BY combines the lines into one total per order. Starting from Orders also retains orders without lines, assigning a total of zero.
+
+### 5. Total spend per customer
+
+**Task:** Show every customer and their total discounted merchandise spend.
+
+```sql
+SELECT c.CustomerID, c.CompanyName,
+       COALESCE(CAST(SUM(CAST(od.UnitPrice AS decimal(19,4)) * od.Quantity
+           * (1 - CAST(od.Discount AS decimal(9,6)))) AS decimal(19,2)), 0) AS TotalSpend
+FROM dbo.Customers AS c
+LEFT JOIN dbo.Orders AS o ON o.CustomerID = c.CustomerID
+LEFT JOIN dbo.[Order Details] AS od ON od.OrderID = o.OrderID
+GROUP BY c.CustomerID, c.CompanyName
+ORDER BY TotalSpend DESC, c.CustomerID;
+```
+
+**Explanation:** Two LEFT JOINs retain every customer, including those without orders. COALESCE displays a missing total as zero.
+
+### 6. Customers with no orders
+
+**Task:** Find customers who have never placed an order.
+
+```sql
+SELECT c.CustomerID, c.CompanyName
+FROM dbo.Customers AS c
+LEFT JOIN dbo.Orders AS o ON o.CustomerID = c.CustomerID
+WHERE o.OrderID IS NULL
+ORDER BY c.CustomerID;
+```
+
+**Explanation:** The LEFT JOIN preserves customers; testing the right-side primary key for NULL identifies those without a matching order.
+
+### 7. Products never ordered
+
+**Task:** Find products that have never appeared on an order.
+
+```sql
+SELECT p.ProductID, p.ProductName
+FROM dbo.Products AS p
+LEFT JOIN dbo.[Order Details] AS od ON od.ProductID = p.ProductID
+WHERE od.OrderID IS NULL
+ORDER BY p.ProductID;
+```
+
+**Explanation:** An unmatched order-line key identifies products with no order history. An empty result is valid if every product has been ordered.
+
+### 8. Orders per employee
+
+**Task:** Count the orders handled by each employee, including zero.
+
+```sql
+SELECT e.EmployeeID, e.FirstName, e.LastName,
+       COUNT(o.OrderID) AS NumberOfOrders
+FROM dbo.Employees AS e
+LEFT JOIN dbo.Orders AS o ON o.EmployeeID = e.EmployeeID
+GROUP BY e.EmployeeID, e.FirstName, e.LastName
+ORDER BY NumberOfOrders DESC, e.EmployeeID;
+```
+
+**Explanation:** COUNT(o.OrderID) counts actual orders and ignores unmatched NULL values. COUNT(*) would incorrectly return one for an employee without orders.
+
+### 9. Top five customers by spend
+
+**Task:** Return five customers with the highest total spend.
+
+```sql
+SELECT TOP (5) c.CustomerID, c.CompanyName,
+       CAST(SUM(CAST(od.UnitPrice AS decimal(19,4)) * od.Quantity
+           * (1 - CAST(od.Discount AS decimal(9,6)))) AS decimal(19,2)) AS TotalSpend
+FROM dbo.Customers AS c
+INNER JOIN dbo.Orders AS o ON o.CustomerID = c.CustomerID
+INNER JOIN dbo.[Order Details] AS od ON od.OrderID = o.OrderID
+GROUP BY c.CustomerID, c.CompanyName
+ORDER BY TotalSpend DESC, c.CustomerID;
+```
+
+**Explanation:** TOP (5) selects five customers after sorting by spend. CustomerID breaks ties consistently; tied customers beyond the fifth row are excluded.
+
+### 10. Revenue by category
+
+**Task:** Calculate discounted merchandise revenue for every category.
+
+```sql
+SELECT cat.CategoryID, cat.CategoryName,
+       COALESCE(CAST(SUM(CAST(od.UnitPrice AS decimal(19,4)) * od.Quantity
+           * (1 - CAST(od.Discount AS decimal(9,6)))) AS decimal(19,2)), 0) AS CategoryRevenue
+FROM dbo.Categories AS cat
+LEFT JOIN dbo.Products AS p ON p.CategoryID = cat.CategoryID
+LEFT JOIN dbo.[Order Details] AS od ON od.ProductID = p.ProductID
+GROUP BY cat.CategoryID, cat.CategoryName
+ORDER BY CategoryRevenue DESC, cat.CategoryID;
+```
+
+**Explanation:** Products connect categories to order lines. LEFT JOIN retains categories without sales. Products with a NULL CategoryID are not included in these category totals.
+
+### 11. Full order breakdown
+
+**Task:** Show OrderID, customer name, product name, quantity and historical unit price.
+
+```sql
+SELECT o.OrderID, c.CompanyName AS CustomerName,
+       p.ProductName, od.Quantity, od.UnitPrice
+FROM dbo.Orders AS o
+INNER JOIN dbo.Customers AS c ON c.CustomerID = o.CustomerID
+INNER JOIN dbo.[Order Details] AS od ON od.OrderID = o.OrderID
+INNER JOIN dbo.Products AS p ON p.ProductID = od.ProductID
+ORDER BY o.OrderID, p.ProductID;
+```
+
+**Explanation:** The four tables create one row per order line. CompanyName is the customer organisation; od.UnitPrice is the historical selling price.
+
+### 12. Average order value per customer
+
+**Task:** Show each customer, number of orders, total spend and average order value.
+
+```sql
+WITH OrderTotals AS (
+    SELECT o.OrderID, o.CustomerID,
+           COALESCE(SUM(CAST(od.UnitPrice AS decimal(19,4)) * od.Quantity
+           * (1 - CAST(od.Discount AS decimal(9,6)))), 0) AS OrderTotal
+    FROM dbo.Orders AS o
+    LEFT JOIN dbo.[Order Details] AS od ON od.OrderID = o.OrderID
+    GROUP BY o.OrderID, o.CustomerID
+)
+SELECT c.CustomerID, c.CompanyName,
+       COUNT(ot.OrderID) AS NumberOfOrders,
+       CAST(COALESCE(SUM(ot.OrderTotal), 0) AS decimal(19,2)) AS TotalSpend,
+       CAST(AVG(ot.OrderTotal) AS decimal(19,2)) AS AverageOrderValue
+FROM dbo.Customers AS c
+LEFT JOIN OrderTotals AS ot ON ot.CustomerID = c.CustomerID
+GROUP BY c.CustomerID, c.CompanyName
+ORDER BY TotalSpend DESC, c.CustomerID;
+```
+
+**Explanation:** The CTE first creates one row per order. This prevents multiple order lines from inflating the order count or producing an average line value. Customers without orders have a zero count and spend, and a NULL average; orders without lines count as zero-value orders.
+
+### 13. Employees with no orders
+
+**Task:** Find employees who have not handled any orders.
+
+```sql
+SELECT e.EmployeeID, e.FirstName, e.LastName
+FROM dbo.Employees AS e
+LEFT JOIN dbo.Orders AS o ON o.EmployeeID = e.EmployeeID
+WHERE o.OrderID IS NULL
+ORDER BY e.EmployeeID;
+```
+
+**Explanation:** This repeats the no-match pattern used for customers. No rows means every employee has handled at least one order in the queried data.
+
+### 14. Most popular product by quantity
+
+**Task:** Return the product or products with the highest total units ordered.
+
+```sql
+WITH ProductQuantities AS (
+    SELECT p.ProductID, p.ProductName, SUM(od.Quantity) AS TotalQuantity
+    FROM dbo.Products AS p
+    INNER JOIN dbo.[Order Details] AS od ON od.ProductID = p.ProductID
+    GROUP BY p.ProductID, p.ProductName
+)
+SELECT ProductID, ProductName, TotalQuantity
+FROM ProductQuantities
+WHERE TotalQuantity = (SELECT MAX(TotalQuantity) FROM ProductQuantities)
+ORDER BY ProductID;
+```
+
+**Explanation:** SUM(Quantity) measures total units ordered, rather than order frequency or revenue. The outer query returns every product tied for the highest quantity.
+
+### 15. Orders with shipping companies
+
+**Task:** Show every order and its associated shipper name.
+
+```sql
+SELECT o.OrderID, s.CompanyName AS ShippingCompany
+FROM dbo.Orders AS o
+LEFT JOIN dbo.Shippers AS s ON s.ShipperID = o.ShipVia
+ORDER BY o.OrderID;
+```
+
+**Explanation:** Orders.ShipVia references Shippers.ShipperID. LEFT JOIN retains orders without a recorded shipper, displaying NULL for the shipping company.
+
+## 7. Common mistakes and validation
+
+- **Incorrect matching conditions:** join the intended keys; names are not reliable identifiers.
+- **Overcounting orders:** joining to order lines expands rows. Check the grain before using COUNT or AVG.
+- **Losing unmatched records:** a WHERE condition on the right-side table can remove the NULL rows retained by a LEFT JOIN. Place match restrictions in ON when all left-side records must remain.
+- **Incorrect no-match checks:** use a right-side key that cannot be NULL in a genuine match, such as OrderID.
+- **Repeated freight:** Freight belongs to an order. Adding it once per order line inflates the total.
+
+```sql
+-- Keep every customer, but match only their orders from 1997.
+SELECT c.CustomerID, c.CompanyName, o.OrderID
+FROM dbo.Customers AS c
+LEFT JOIN dbo.Orders AS o
+    ON o.CustomerID = c.CustomerID
+   AND o.OrderDate >= '19970101'
+   AND o.OrderDate < '19980101';
+```
+
+Validate that overall order-level totals reconcile with order-line totals before final rounding. Customer or category totals may differ from the overall total where relevant foreign keys are NULL. An empty result from a no-orders query is a valid finding, not necessarily an error.
+
+## References
+
+- [Microsoft Learn: JOINs in SQL Server](https://learn.microsoft.com/en-us/sql/relational-databases/performance/joins)
+- [Microsoft Learn: GROUP BY](https://learn.microsoft.com/en-us/sql/t-sql/queries/select-group-by-transact-sql)
+- [Microsoft Learn: Common Table Expressions](https://learn.microsoft.com/en-us/sql/t-sql/queries/with-common-table-expression-transact-sql)
+- [Microsoft: Northwind installation script](https://github.com/microsoft/sql-server-samples/blob/master/samples/databases/northwind-pubs/instnwnd.sql)
