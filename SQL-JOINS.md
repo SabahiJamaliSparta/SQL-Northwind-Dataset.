@@ -15,10 +15,6 @@ The `FROM` clause identifies the left table, and the table after `JOIN` is the r
 
 An equality JOIN returns every pair with matching key values. If one customer has two orders, that customer appears twice. Outer JOINs fill fields from a missing side with `NULL`. A JOIN does not automatically remove duplicate rows, and an equality comparison between two `NULL` keys does not create a match.
 
-![SQL JOIN diagram showing input tables and the rows returned by INNER, LEFT, RIGHT and FULL OUTER JOINs](sql-joins-diagram.png)
-
-*Figure 1. The same two input tables produce different outputs according to the JOIN type. Amina has two orders, Chloe has none, and order 104 has no matching customer.*
-
 | JOIN type | Rows retained | Example use |
 | --- | --- | --- |
 | INNER JOIN | Matching pairs only | Orders with customer details |
