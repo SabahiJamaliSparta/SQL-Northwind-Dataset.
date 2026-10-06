@@ -35,12 +35,11 @@ ORDER BY od.OrderID;
 
 -- 5. Total spend per customer
 -- Show every customer and their total discounted merchandise spend.
-SELECT c.CustomerID, c.CompanyName,
-       COALESCE(CAST(SUM(CAST(od.UnitPrice AS decimal(19,4)) * od.Quantity
-           * (1 - CAST(od.Discount AS decimal(9,6)))) AS decimal(19,2)), 0) AS TotalSpend
-FROM dbo.Customers AS c
-LEFT JOIN dbo.Orders AS o ON o.CustomerID = c.CustomerID
-LEFT JOIN dbo.[Order Details] AS od ON od.OrderID = o.OrderID
+SELECT TOP 5 c.CustomerID, c.CompanyName,
+       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalSpend
+FROM Customers c
+INNER JOIN Orders o ON c.CustomerID = o.CustomerID
+INNER JOIN [Order Details] od ON o.OrderID = od.OrderID
 GROUP BY c.CustomerID, c.CompanyName
 ORDER BY TotalSpend DESC, c.CustomerID;
 
