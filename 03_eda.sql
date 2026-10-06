@@ -1,5 +1,5 @@
 /* Northwind learning exercises — SQL Server / T-SQL.
-   Read-only queries. Execute individually to inspect each result. */
+*/
 USE Northwind;
 GO
 
