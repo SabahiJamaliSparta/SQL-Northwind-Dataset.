@@ -1,0 +1,161 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="institute-erd" name="Proposed Institute ERD">
+    <mxGraphModel dx="2421" dy="1169" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1780" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=0;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=32;fontStyle=1;fontColor=#17324D;" value="AI &amp; Tech Institute | Proposed ERD" vertex="1">
+          <mxGeometry height="55" width="1660" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" parent="1" style="text;html=0;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontColor=#52667A;" value="Task 1.4 | SQL Server data types | Primary-key rows connect directly to foreign-key rows" vertex="1">
+          <mxGeometry height="38" width="1660" x="60" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="Course" parent="1" style="swimlane;html=0;startSize=50;horizontal=1;rounded=0;collapsible=0;fillColor=#234766;swimlaneFillColor=#F7FAFD;strokeColor=#A6B6C7;fontColor=#FFFFFF;fontSize=23;fontStyle=1;align=left;spacingLeft=18;" value="Course" vertex="1">
+          <mxGeometry height="160" width="440" x="60" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Course-column-head" parent="Course" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#65798D;" value="&lt;table style=&quot;width:418px;table-layout:fixed;border-collapse:collapse;font-size:11px;font-weight:bold&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px&quot;&gt;KEY&lt;/td&gt;&lt;td style=&quot;width:154px&quot;&gt;FIELD&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;SQL TYPE&lt;/td&gt;&lt;td&gt;NULL RULE&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="26" width="440" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Course-CourseID" parent="Course" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;PK&lt;/td&gt;&lt;td style=&quot;width:154px;font-weight:bold&quot;&gt;CourseID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(20)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="Course-CourseName" parent="Course" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;CourseName&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(100)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstance" parent="1" style="swimlane;html=0;startSize=50;horizontal=1;rounded=0;collapsible=0;fillColor=#176A70;swimlaneFillColor=#F7FAFD;strokeColor=#A6B6C7;fontColor=#FFFFFF;fontSize=23;fontStyle=1;align=left;spacingLeft=18;" value="CourseInstance" vertex="1">
+          <mxGeometry height="244" width="440" x="650" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstance-column-head" parent="CourseInstance" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#65798D;" value="&lt;table style=&quot;width:418px;table-layout:fixed;border-collapse:collapse;font-size:11px;font-weight:bold&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px&quot;&gt;KEY&lt;/td&gt;&lt;td style=&quot;width:154px&quot;&gt;FIELD&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;SQL TYPE&lt;/td&gt;&lt;td&gt;NULL RULE&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="26" width="440" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstance-CourseInstanceID" parent="CourseInstance" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;PK&lt;/td&gt;&lt;td style=&quot;width:154px;font-weight:bold&quot;&gt;CourseInstanceID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;INT&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstance-CourseID" parent="CourseInstance" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;FK&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;CourseID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(20)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstance-StartDate" parent="CourseInstance" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;StartDate&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;DATE&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstance-EndDate" parent="CourseInstance" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;EndDate&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;DATE&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans" parent="1" style="swimlane;html=0;startSize=50;horizontal=1;rounded=0;collapsible=0;fillColor=#234766;swimlaneFillColor=#F7FAFD;strokeColor=#A6B6C7;fontColor=#FFFFFF;fontSize=23;fontStyle=1;align=left;spacingLeft=18;" value="Spartans" vertex="1">
+          <mxGeometry height="370" width="440" x="1240" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans-column-head" parent="Spartans" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#65798D;" value="&lt;table style=&quot;width:418px;table-layout:fixed;border-collapse:collapse;font-size:11px;font-weight:bold&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px&quot;&gt;KEY&lt;/td&gt;&lt;td style=&quot;width:154px&quot;&gt;FIELD&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;SQL TYPE&lt;/td&gt;&lt;td&gt;NULL RULE&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="26" width="440" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans-SpartanID" parent="Spartans" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;PK&lt;/td&gt;&lt;td style=&quot;width:154px;font-weight:bold&quot;&gt;SpartanID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;INT&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans-FirstName" parent="Spartans" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;FirstName&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(50)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans-MiddleName" parent="Spartans" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;MiddleName&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(50)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans-LastName" parent="Spartans" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;LastName&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(50)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans-Title" parent="Spartans" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;Title&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(10)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="244" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans-Email" parent="Spartans" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;UQ&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;Email&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(100)&lt;/td&gt;&lt;td&gt;NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="286" as="geometry" />
+        </mxCell>
+        <mxCell id="Spartans-Status" parent="Spartans" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;Status&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(20)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="328" as="geometry" />
+        </mxCell>
+        <mxCell id="Trainer" parent="1" style="swimlane;html=0;startSize=50;horizontal=1;rounded=0;collapsible=0;fillColor=#234766;swimlaneFillColor=#F7FAFD;strokeColor=#A6B6C7;fontColor=#FFFFFF;fontSize=23;fontStyle=1;align=left;spacingLeft=18;" value="Trainer" vertex="1">
+          <mxGeometry height="160" width="440" x="60" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="Trainer-column-head" parent="Trainer" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#65798D;" value="&lt;table style=&quot;width:418px;table-layout:fixed;border-collapse:collapse;font-size:11px;font-weight:bold&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px&quot;&gt;KEY&lt;/td&gt;&lt;td style=&quot;width:154px&quot;&gt;FIELD&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;SQL TYPE&lt;/td&gt;&lt;td&gt;NULL RULE&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="26" width="440" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Trainer-TrainerID" parent="Trainer" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;PK&lt;/td&gt;&lt;td style=&quot;width:154px;font-weight:bold&quot;&gt;TrainerID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;INT&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="Trainer-TrainerName" parent="Trainer" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;TrainerName&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;VARCHAR(100)&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstanceTrainer" parent="1" style="swimlane;html=0;startSize=50;horizontal=1;rounded=0;collapsible=0;fillColor=#8A5724;swimlaneFillColor=#F7FAFD;strokeColor=#A6B6C7;fontColor=#FFFFFF;fontSize=23;fontStyle=1;align=left;spacingLeft=18;" value="CourseInstanceTrainer" vertex="1">
+          <mxGeometry height="160" width="440" x="650" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstanceTrainer-column-head" parent="CourseInstanceTrainer" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#65798D;" value="&lt;table style=&quot;width:418px;table-layout:fixed;border-collapse:collapse;font-size:11px;font-weight:bold&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px&quot;&gt;KEY&lt;/td&gt;&lt;td style=&quot;width:154px&quot;&gt;FIELD&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;SQL TYPE&lt;/td&gt;&lt;td&gt;NULL RULE&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="26" width="440" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstanceTrainer-CourseInstanceID" parent="CourseInstanceTrainer" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;PK, FK&lt;/td&gt;&lt;td style=&quot;width:154px;font-weight:bold&quot;&gt;CourseInstanceID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;INT&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="CourseInstanceTrainer-TrainerID" parent="CourseInstanceTrainer" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;PK, FK&lt;/td&gt;&lt;td style=&quot;width:154px;font-weight:bold&quot;&gt;TrainerID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;INT&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="Enrolment" parent="1" style="swimlane;html=0;startSize=50;horizontal=1;rounded=0;collapsible=0;fillColor=#8A5724;swimlaneFillColor=#F7FAFD;strokeColor=#A6B6C7;fontColor=#FFFFFF;fontSize=23;fontStyle=1;align=left;spacingLeft=18;" value="Enrolment" vertex="1">
+          <mxGeometry height="202" width="440" x="1240" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="Enrolment-column-head" parent="Enrolment" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#65798D;" value="&lt;table style=&quot;width:418px;table-layout:fixed;border-collapse:collapse;font-size:11px;font-weight:bold&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px&quot;&gt;KEY&lt;/td&gt;&lt;td style=&quot;width:154px&quot;&gt;FIELD&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;SQL TYPE&lt;/td&gt;&lt;td&gt;NULL RULE&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="26" width="440" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Enrolment-SpartanID" parent="Enrolment" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;PK, FK&lt;/td&gt;&lt;td style=&quot;width:154px;font-weight:bold&quot;&gt;SpartanID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;INT&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="Enrolment-CourseInstanceID" parent="Enrolment" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;PK, FK&lt;/td&gt;&lt;td style=&quot;width:154px;font-weight:bold&quot;&gt;CourseInstanceID&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;INT&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="Enrolment-EnrolmentDate" parent="Enrolment" style="shape=partialRectangle;html=1;connectable=1;whiteSpace=wrap;fillColor=none;strokeColor=#DDE6EE;top=0;left=0;bottom=1;right=0;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=8;fontColor=#1F354A;fontSize=13;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:13px&quot;&gt;&lt;tr&gt;&lt;td style=&quot;width:58px;font-weight:bold&quot;&gt;&lt;/td&gt;&lt;td style=&quot;width:154px;&quot;&gt;EnrolmentDate&lt;/td&gt;&lt;td style=&quot;width:111px&quot;&gt;DATE&lt;/td&gt;&lt;td&gt;NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="42" width="440" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-0" edge="1" parent="1" source="Course-CourseID" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3D566E;strokeWidth=2;startArrow=ERmandOne;startFill=0;startSize=18;endArrow=ERzeroToMany;endFill=0;endSize=22;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" target="CourseInstance-CourseID">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="267" />
+              <mxPoint x="570" y="309" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-1" edge="1" parent="1" source="CourseInstance-CourseInstanceID" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3D566E;strokeWidth=2;startArrow=ERmandOne;startFill=0;startSize=18;endArrow=ERoneToMany;endFill=0;endSize=22;exitX=1;exitY=0.75;entryX=1;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" target="CourseInstanceTrainer-CourseInstanceID">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1140" y="277.5" />
+              <mxPoint x="1140" y="747" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-2" edge="1" parent="1" source="Trainer-TrainerID" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3D566E;strokeWidth=2;startArrow=ERmandOne;startFill=0;startSize=18;endArrow=ERzeroToMany;endFill=0;endSize=22;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" target="CourseInstanceTrainer-TrainerID">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="747" />
+              <mxPoint x="550" y="789" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-3" edge="1" parent="1" source="Spartans-SpartanID" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3D566E;strokeWidth=2;startArrow=ERmandOne;startFill=0;startSize=18;endArrow=ERzeroToMany;endFill=0;endSize=22;exitX=1;exitY=0.5;entryX=1;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" target="Enrolment-SpartanID">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1720" y="267" />
+              <mxPoint x="1720" y="747" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-4" edge="1" parent="1" source="CourseInstance-CourseInstanceID" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3D566E;strokeWidth=2;startArrow=ERmandOne;startFill=0;startSize=18;endArrow=ERzeroToMany;endFill=0;endSize=22;exitX=1;exitY=0.25;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" target="Enrolment-CourseInstanceID">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1180" y="256.5" />
+              <mxPoint x="1180" y="789" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="keys-note" parent="1" style="text;html=0;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontColor=#344D63;" value="KEYS: PK = primary key | FK = foreign key | UQ = unique | NULL = optional.&#xa;The two PK, FK fields in each link table form one composite primary key." vertex="1">
+          <mxGeometry height="60" width="1650" x="60" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="relation-note" parent="1" style="text;html=0;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontColor=#344D63;" value="CARDINALITY: double bar = exactly one | circle + crow’s foot = zero or many | bar + crow’s foot = one or many." vertex="1">
+          <mxGeometry height="35" width="1650" x="60" y="972" as="geometry" />
+        </mxCell>
+        <mxCell id="rules-note" parent="1" style="text;html=0;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontColor=#344D63;" value="RETAINED RULES: Title IN (Mr, Ms, Mx, Dr); Status DEFAULT Active; Email UNIQUE and nullable.&#xa;PROPOSED RULES: CourseInstance.EndDate &gt;= StartDate when supplied; each instance has at least one trainer." vertex="1">
+          <mxGeometry height="62" width="1650" x="60" y="1020" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
