@@ -262,22 +262,16 @@ ORDER BY o.OrderID, p.ProductID;
 **Task:** Show each customer, number of orders, total spend and average order value.
 
 ```sql
-WITH OrderTotals AS (
-    SELECT o.OrderID, o.CustomerID,
-           COALESCE(SUM(CAST(od.UnitPrice AS decimal(19,4)) * od.Quantity
-           * (1 - CAST(od.Discount AS decimal(9,6)))), 0) AS OrderTotal
-    FROM dbo.Orders AS o
-    LEFT JOIN dbo.[Order Details] AS od ON od.OrderID = o.OrderID
-    GROUP BY o.OrderID, o.CustomerID
-)
-SELECT c.CustomerID, c.CompanyName,
-       COUNT(ot.OrderID) AS NumberOfOrders,
-       CAST(COALESCE(SUM(ot.OrderTotal), 0) AS decimal(19,2)) AS TotalSpend,
-       CAST(AVG(ot.OrderTotal) AS decimal(19,2)) AS AverageOrderValue
-FROM dbo.Customers AS c
-LEFT JOIN OrderTotals AS ot ON ot.CustomerID = c.CustomerID
+SELECT c.CompanyName,
+       COUNT(DISTINCT o.OrderID) AS NumberOfOrders,
+       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalSpend,
+       SUM(od.UnitPrice * od.Quantity * (1 - od.Discount))
+           / NULLIF(COUNT(DISTINCT o.OrderID), 0) AS AverageOrderValue
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+LEFT JOIN [Order Details] od ON o.OrderID = od.OrderID
 GROUP BY c.CustomerID, c.CompanyName
-ORDER BY TotalSpend DESC, c.CustomerID;
+ORDER BY TotalSpend DESC;
 ```
 
 **Explanation:** The CTE first creates one row per order. This prevents multiple order lines from inflating the order count or producing an average line value. Customers without orders have a zero count and spend, and a NULL average; orders without lines count as zero-value orders.
@@ -287,11 +281,10 @@ ORDER BY TotalSpend DESC, c.CustomerID;
 **Task:** Find employees who have not handled any orders.
 
 ```sql
-SELECT e.EmployeeID, e.FirstName, e.LastName
-FROM dbo.Employees AS e
-LEFT JOIN dbo.Orders AS o ON o.EmployeeID = e.EmployeeID
-WHERE o.OrderID IS NULL
-ORDER BY e.EmployeeID;
+SELECT e.FirstName, e.LastName
+FROM Employees e
+LEFT JOIN Orders o ON e.EmployeeID = o.EmployeeID
+WHERE o.OrderID IS NULL;
 ```
 
 **Explanation:** This repeats the no-match pattern used for customers. No rows means every employee has handled at least one order in the queried data.
